@@ -3,8 +3,16 @@
 Scenario 
 A global research institution is studying the impact of climate change across different regions. They need a centralized system to track key climate indicators, monitor extreme weather events, and analyse their economic and infrastructural impact. 
 Business Problem 
+
+
+
 The organization faces challenges in: Tracking Climate Trends – Data is scattered across multiple sources, making it difficult to analyse temperature variations, air quality, and precipitation patterns over time. Generating Reports Efficiently – Researchers rely on manual reporting, leading to delays in decision-making. Assessing Climate Risks – There is no structured way to analyse how climate events impacts infrastructure and the economy in different regions. To address these issues, we are going to develop a data-driven climate monitoring solution with 
 automated reporting and real-time visualization, ensuring quick access to insights for informed decision-making. 
+
+
+
+
+
 Climate Change Dataset: Column Descriptions 
 Metadata Columns 
 Record ID 

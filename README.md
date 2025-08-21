@@ -17,47 +17,71 @@ Climate Change Dataset: Column Descriptions
 Metadata Columns 
 Record ID 
 A unique identifier assigned to each individual climate data record. 
+
 Date 
 The specific date when the climate observation was recorded. 
+
 Geographic Columns 
+
 Country 
 The nation where the climate data was collected. 
+
 City 
 The specific urban location where the data was gathered. 
+
 Climate and Environmental Metrics 
+
 Temperature (°C) 
 Measurement of the ambient air temperature in degrees Celsius. 
+
 Humidity (%) 
 The amount of water vapor present in the air, expressed as a percentage. 
+
 Precipitation (mm) 
 The total amount of rainfall or water equivalent measured in millimeters. 
+
 Air Quality Index (AQI) 
 A numerical scale that indicates the level of air pollution and potential health risks. 
+
 Extreme Weather Events 
 Significant and unusual meteorological occurrences such as hurricanes, heatwaves, or droughts. 
+
 Classification and Contextual Columns 
+
 Climate Classification (Koeppen) 
 A scientific system for categorizing global climate types based on temperature and precipitation patterns. 
+
 Climate Zone 
 A broad classification of the ecological climate characteristics of a specific region. 
+
 Biome Type 
 A large-scale biological community defined by its distinctive plant and animal species and environmental conditions. 
+
 Meteorological Columns 
+
 Heat Index 
 A combined measure of air temperature and relative humidity that represents how hot it actually feels. 
+
 Wind Speed 
 The rate of air movement measured at the location. 
+
 Wind Direction 
 The compass direction from which the wind is blowing. 
+
 Season 
 The specific time of year when the data was collected. 
+
 Impact and Vulnerability Columns 
+
 Population Exposure 
 The number of people potentially affected by the observed climate conditions. 
+
 Economic Impact Estimate 
 A monetary valuation of the potential economic consequences related to the climate conditions. 
+
 Infrastructure Vulnerability Score 
 A numerical rating that assesses the potential risk and susceptibility of infrastructure to climate-related challenges. 
+
 1.	SQL Data Cleaning 
 
 -- Create a combined table 
@@ -75,6 +99,7 @@ union
 select * from "Climate Change"."South Africa" 
 union 
 select * from "Climate Change"."United States" 
+
 -- Check for duplicates 
 SELECT "Record ID" 
 FROM "Climate Change"."Combined Data" 
@@ -82,10 +107,12 @@ group by "Record ID"
 having count(*) > 1; 
 SELECT distinct "Country" 
 FROM "Climate Change"."Combined Data" 
+
 -- Update the country 
 update "Climate Change"."Combined Data" 
 set "Country" = 'India' 
 where "Country" = 'Inda'; 
+
 -- Check for null values 
 select * 
 from "Climate Change"."Combined Data" 
@@ -112,10 +139,13 @@ or "Infrastructure Vulnerability Score" IS NULL;
 update "Climate Change"."Combined Data" 
 set "Population Exposure" = 5275135 
 where "Record ID" = 'aus_1338'; 
+
 -- Update City 
 update "Climate Change"."Combined Data" 
 set "City" = 'Toronto' 
 where "Record ID" = 'cnd_227'; 
+
+
 1.	SQL Data Analysis 
 
 -- Monthly Temperature Trends 
@@ -124,12 +154,14 @@ AVG("Temperature") AS Avg_Temperature
 FROM "Climate Change"."Combined Data" 
 GROUP BY TO_CHAR("Date", 'Month'), EXTRACT(MONTH FROM "Date") 
 ORDER BY EXTRACT(MONTH FROM "Date"); 
+
 -- average temperature by country 
 SELECT "Country", 
 AVG("Temperature") AS Avg_Temperature 
 FROM "Climate Change"."Combined Data" 
 GROUP BY "Country" 
 ORDER BY Avg_Temperature DESC; 
+
 -- Extreme Weather Events by Month 
 SELECT TO_CHAR("Date", 'Month') AS Month_Name, 
 COUNT(*) AS Event_Count 
@@ -137,6 +169,7 @@ FROM "Climate Change"."Combined Data"
 WHERE "Extreme Weather Events" <> 'None' 
 GROUP BY TO_CHAR("Date", 'Month') 
 ORDER BY MIN("Date"); 
+
 -- Country-wise Extreme Weather 
 SELECT "Country", 
 COUNT(*) AS Event_Count 
@@ -144,6 +177,7 @@ FROM "Climate Change"."Combined Data"
 WHERE "Extreme Weather Events" <> 'None' 
 GROUP BY "Country" 
 ORDER BY Event_Count DESC; 
+
 -- Extreme Weather Events by Temperature Range 
 SELECT 
 CASE 
@@ -159,6 +193,7 @@ FROM "Climate Change"."Combined Data"
 WHERE "Extreme Weather Events" <> 'None' 
 GROUP BY Temperature_Range, "Extreme Weather Events" 
 ORDER BY Temperature_Range, Event_Count DESC; 
+
 -- which cities are experiencing extreme weather events this week and what are their economic and population impacts? 
 select 
 "Country", 
@@ -174,6 +209,7 @@ where "Date" between '2025-03-03' and '2025-03-07'
 and "Extreme Weather Events" != 'None' 
 group by "Country", "City", "Extreme Weather Events" 
 order by "Total Economic Impact" desc; 
+
 -- what are the top 5 cities with the highest air quality concerns and their associate risks? 
 select 
 "Country", 
@@ -188,6 +224,7 @@ group by "Country", "City"
 having avg("Air Quality Index") > 100 
 order by "Average AQI" 
 limit 5; 
+
 -- Which biome types are most risk from extreme weather events this week? 
 select 
 "Biome Type", 
@@ -201,6 +238,8 @@ Round(Avg("Infrastructure Vulnerability Score"), 0) as "Average Vulnerability"
 from "Climate Change"."Combined Data" 
 where "Date" between '2025-03-03' and '2025-03-07' 
 group by "Biome Type" 
+
+
 1.	Tableau 
 
 Avg AQI 

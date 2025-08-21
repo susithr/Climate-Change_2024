@@ -243,12 +243,21 @@ group by "Biome Type"
 1.	Tableau 
 
 Avg AQI 
+
 AVG([Air Quality Index]) 
+
+
 Current Month AQI 
+
+
 IF DATENAME('month', [Date]) = [Current Month] THEN 
 {FIXED DATENAME('month', [Date]) : AVG([Air Quality Index])} 
 END 
+
+
 Previous Month AQI 
+
+
 IF DATENAME('month', [Date]) = 
 case [Current Month] 
 WHEN 'January' THEN 'December' 
@@ -266,9 +275,15 @@ WHEN 'December' THEN 'November'
 END 
 THEN {FIXED DATENAME('month', [Date]) : AVG([Air Quality Index])} 
 END 
+
+
 % Difference AQI 
+
+
 (AVG([Current Month AQI]) - AVG([Previous Month AQI])) / AVG([Previous Month AQI]) 
+
 Bad Percentage AQI 
+
 IF [% Difference AQI] >= 0.03 
 THEN 
 IF [% Difference AQI] > 0 
@@ -278,7 +293,9 @@ END
 ELSE 
 "" 
 END 
+
 Good Percentage AQI 
+
 IF [% Difference AQI] < 0.03 
 THEN 
 IF [% Difference AQI] > 0 
@@ -288,10 +305,14 @@ END
 ELSE 
 "" 
 END 
+
 Count of EWE 
+
 IF [Extreme Weather Events] <> "None" THEN 1 ELSE 0 
 END 
+
 Current Month EWE 
+
 IF DATENAME('month', [Date]) = [Current Month] THEN [Count of EWE] 
 END 
 Previous Month EWE 
@@ -312,14 +333,21 @@ WHEN 'December' THEN 'November'
 END 
 THEN [Count of EWE] 
 END 
+
 % Difference EWE 
+
 (SUM([Current Month EWE]) - SUM([Previous Month EWE])) / SUM([Previous Month EWE]) 
+
+
 Bad Percentage EWE 
+
 IF [% Difference EWE] > 0 THEN "▲ " + STR(ROUND([% Difference EWE] * 100, 2)) + "%" 
 ELSE 
 "" 
 END 
+
 Good Percentage EWE 
+
 IF [% Difference EWE] < 0 THEN "▼ " + STR(ROUND([% Difference EWE] * 100, 2)) + "%" 
 ELSE 
 "" 
@@ -330,7 +358,9 @@ Current Month Precipitation Intensity
 IF DATENAME('month', [Date]) = [Current Month] THEN 
 {FIXED DATENAME('month', [Date]) : AVG([Precipitation])} 
 END 
+
 Previous Month Precipitation Intensity 
+
 IF DATENAME('month', [Date]) = 
 case [Current Month] 
 WHEN 'January' THEN 'December' 
@@ -348,7 +378,9 @@ WHEN 'December' THEN 'November'
 END 
 THEN {FIXED DATENAME('month', [Date]) : AVG([Precipitation])} 
 END 
+
 % Difference Precipitation Intensity 
+
 (AVG([Current Month Precipitation Intensity]) - AVG([Previous Month Precipitation Intensity])) / AVG([Previous Month Precipitation Intensity]) 
 Bad Percentage Precipitation Intensity 
 IF [% Difference Precipitation Intensity] <= -0.02 or [% Difference Precipitation Intensity] >= 0.02 THEN 
@@ -359,7 +391,9 @@ END
 ELSE 
 "" 
 END 
+
 Good Percentage Precipitation Intensity 
+
 IF [% Difference Precipitation Intensity] > -0.02 AND [% Difference Precipitation Intensity] < 0.02 THEN 
 IF [% Difference Precipitation Intensity] > 0 
 THEN "▲ " + STR(ROUND([% Difference Precipitation Intensity] * 100, 2)) + "%" 
@@ -368,13 +402,19 @@ END
 ELSE 
 "" 
 END 
+
 Avg Temperature 
+
 AVG([Temperature]) 
+
 Current Month Temperature 
+
 IF DATENAME('month', [Date]) = [Current Month] THEN 
 {FIXED DATENAME('month', [Date]) : AVG([Temperature])} 
 END 
+
 Previous Month Temperature 
+
 IF DATENAME('month', [Date]) = 
 case [Current Month] 
 WHEN 'January' THEN 'December' 
@@ -392,7 +432,9 @@ WHEN 'December' THEN 'November'
 END 
 THEN {FIXED DATENAME('month', [Date]) : AVG([Temperature])} 
 END 
+
 % Difference Temperature 
+
 (AVG([Current Month Temperature]) - AVG([Previous Month Temperature])) / AVG([Previous Month Temperature]) 
 Bad Percentage Temperature 
 IF [% Difference Temperature] >= 0.03 OR [% Difference Temperature] <= -0.03 
@@ -404,7 +446,9 @@ END
 ELSE 
 "" 
 END 
+
 Good Percentage Temperature 
+
 IF [% Difference Temperature] > -0.03 AND [% Difference Temperature] < 0.03 
 THEN 
 IF [% Difference Temperature] > 0 
@@ -414,13 +458,19 @@ END
 ELSE 
 "" 
 END 
+
 Temperature Variability 
+
 STDEV([Temperature]) 
+
 Current Month Temperature Variability 
+
 IF DATENAME('month', [Date]) = [Current Month] THEN 
 {FIXED DATENAME('month', [Date]) : STDEV([Temperature])} 
 END 
+
 Previous Month Temperature Variability 
+
 IF DATENAME('month', [Date]) = 
 case [Current Month] 
 WHEN 'January' THEN 'December' 
@@ -438,7 +488,9 @@ WHEN 'December' THEN 'November'
 END 
 THEN {FIXED DATENAME('month', [Date]) : STDEV([Temperature])} 
 END 
+
 % Difference Temperature Variability 
+
 (AVG([Current Month Temperature Variability]) - AVG([Previous Month Temperature Variability])) / AVG([Previous Month Temperature Variability]) 
 Bad Percentage Temperature Variability 
 IF [% Difference Temperature Variability] >= 0.01 THEN 
@@ -449,7 +501,9 @@ END
 ELSE 
 "" 
 END 
+
 Good Percentage Temperature Variability 
+
 IF [% Difference Temperature Variability] < 0.01 THEN 
 IF [% Difference Temperature Variability] > 0 
 THEN "▲ " + STR(ROUND([% Difference Temperature Variability] * 100, 2)) + "%" 
